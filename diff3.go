@@ -71,7 +71,8 @@ func matches(diffs []diffmatchpatch.Diff, runes []rune) map[int]int {
 
 // nextMismatch searches for the next index where a or b is not equal to o.
 func nextMismatch(indexO, indexA, indexB int, runesA, runesB []rune, matchesA, matchesB map[int]int) int {
-	for i := 1; i <= len(runesA) && i <= len(runesB); i++ {
+	stop := min(len(runesA), len(runesB))
+	for i := 1; i <= stop; i++ {
 		a, okA := matchesA[indexO+i]
 		b, okB := matchesB[indexO+i]
 
@@ -79,7 +80,7 @@ func nextMismatch(indexO, indexA, indexB int, runesA, runesB []rune, matchesA, m
 			return i
 		}
 	}
-	return 0
+	return stop
 }
 
 // nextMatch searches for the next index where a and b are equal to o.
